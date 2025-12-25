@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Storage</title>
+</head>
+<body>
+    <h1>LocalStorage Test</h1>
+    <button onclick="checkStorage()">Check Expenses</button>
+    <button onclick="clearStorage()">Clear All</button>
+    <pre id="output"></pre>
+    
+    <script>
+        function checkStorage() {
+            const expenses = localStorage.getItem('expenses');
+            document.getElementById('output').textContent = expenses || 'No expenses found';
+        }
+        
+        function clearStorage() {
+            localStorage.clear();
+            alert('Cleared!');
+        }
+        
+        checkStorage();
+    </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Theme Tester</title>
+    <style>
+        body { padding: 50px; font-family: Arial; }
+        button { padding: 15px 30px; margin: 10px; font-size: 16px; cursor: pointer; border-radius: 8px; border: none; }
+        .dark-btn { background: #14B8A6; color: white; }
+        .light-btn { background: #e5e7eb; color: #111; }
+        .info { padding: 20px; margin: 20px 0; background: #f0f0f0; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h1>🎨 Theme Switcher</h1>
+    <div class="info">
+        <p><strong>Current Theme:</strong> <span id="current-theme">Loading...</span></p>
+    </div>
+    
+    <button class="dark-btn" onclick="setDark()">🌙 Set Dark Mode</button>
+    <button class="light-btn" onclick="setLight()">☀️ Set Light Mode</button>
+    <button onclick="openDashboard()">📊 Open Dashboard</button>
+    
+    <script>
+        function showCurrent() {
+            const theme = localStorage.getItem('theme') || 'light';
+            document.getElementById('current-theme').textContent = theme.toUpperCase();
+        }
+        
+        function setDark() {
+            localStorage.setItem('theme', 'dark');
+            alert('✅ Dark mode activated! Now open any page.');
+            showCurrent();
+        }
+        
+        function setLight() {
+            localStorage.setItem('theme', 'light');
+            alert('✅ Light mode activated! Now open any page.');
+            showCurrent();
+        }
+        
+        function openDashboard() {
+            window.location.href = 'dashboard.html';
+        }
+        
+        showCurrent();
+    </script>
+</body>
+</html>

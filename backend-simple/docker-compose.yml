@@ -1,0 +1,25 @@
+# Production-ready docker-compose (Optional - for local testing)
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - COSMOS_DB_ENDPOINT=${COSMOS_DB_ENDPOINT}
+      - COSMOS_DB_KEY=${COSMOS_DB_KEY}
+      - COSMOS_DB_DATABASE_NAME=${COSMOS_DB_DATABASE_NAME}
+      - COSMOS_DB_USERS_CONTAINER=${COSMOS_DB_USERS_CONTAINER}
+      - COSMOS_DB_EXPENSES_CONTAINER=${COSMOS_DB_EXPENSES_CONTAINER}
+      - AZURE_STORAGE_CONNECTION_STRING=${AZURE_STORAGE_CONNECTION_STRING}
+      - AZURE_STORAGE_CONTAINER_NAME=${AZURE_STORAGE_CONTAINER_NAME}
+      - JWT_SECRET=${JWT_SECRET}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

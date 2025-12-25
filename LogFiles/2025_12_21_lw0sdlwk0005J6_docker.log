@@ -1,0 +1,65 @@
+2025-12-21T11:28:30.1428456Z Container start method called.
+2025-12-21T11:28:30.1738640Z Establishing network.
+2025-12-21T11:28:30.1810973Z Pulling image: expensetrackeracr1.azurecr.io/expense-backend:latest.
+2025-12-21T11:28:34.3845483Z Container pull image failed with reason: ImagePullFailure. Revert by terminate.
+2025-12-21T11:28:34.4028137Z Container is terminating. Grace period: 5 seconds.
+2025-12-21T11:28:34.4056046Z Container spec TerminationMessagePolicy  path 
+2025-12-21T11:28:34.4230290Z Container is terminated. Total time elapsed: 11 ms.
+2025-12-21T11:28:34.4247085Z Site container: expense-backend-app-unique terminated during site startup.
+2025-12-21T11:28:34.4933770Z Failed to start site. Revert by stopping site.
+2025-12-21T11:28:34.5343154Z Site: expense-backend-app-unique stopped.
+2025-12-21T11:28:40.817Z INFO  - Pulling image: expensetrackeracr1.azurecr.io/expense-backend:latest
+2025-12-21T11:28:41.220Z INFO  - latest Pulling from expense-backend
+2025-12-21T11:28:41.261Z INFO  -  
+2025-12-21T11:28:41.263Z ERROR - no matching manifest for linux/amd64 in the manifest list entriesErr: 0, Message: no matching manifest for linux/amd64 in the manifest list entries
+2025-12-21T11:28:41.270Z INFO  - Pull Image failed, Time taken: 0 Seconds
+2025-12-21T11:28:41.272Z ERROR - Pulling docker image expensetrackeracr1.azurecr.io/expense-backend:latest failed:
+2025-12-21T11:28:41.343Z ERROR - DockerApiException: Docker API responded with status code=InternalServerError, response={"message":"Head \"https://expensetrackeracr1.azurecr.io/v2/expense-backend/manifests/latest\": unauthorized: {\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"authentication required, visit https://aka.ms/acr/authorization for more information. CorrelationId: 3b63ca6e-8418-4f67-9b0d-5c9fc870f244\"}]}"}
+
+2025-12-21T11:28:41.346Z WARN  - Image pull failed. Defaulting to local copy if present.
+2025-12-21T11:28:41.354Z ERROR - Image pull failed: Verify docker image configuration and credentials (if using private repository)
+2025-12-21T11:28:41.423Z INFO  - Stopping site expense-backend-app-unique because it failed during startup.
+2025-12-21T11:28:48.910Z INFO  - Pulling image: expensetrackeracr1.azurecr.io/expense-backend:latest
+2025-12-21T11:28:49.205Z INFO  - latest Pulling from expense-backend
+2025-12-21T11:28:49.249Z INFO  -  
+2025-12-21T11:28:49.249Z ERROR - no matching manifest for linux/amd64 in the manifest list entriesErr: 0, Message: no matching manifest for linux/amd64 in the manifest list entries
+2025-12-21T11:28:49.257Z INFO  - Pull Image failed, Time taken: 0 Seconds
+2025-12-21T11:28:49.264Z ERROR - Pulling docker image expensetrackeracr1.azurecr.io/expense-backend:latest failed:
+2025-12-21T11:28:49.863Z ERROR - DockerApiException: Docker API responded with status code=InternalServerError, response={"message":"Head \"https://expensetrackeracr1.azurecr.io/v2/expense-backend/manifests/latest\": unauthorized: {\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"authentication required, visit https://aka.ms/acr/authorization for more information. CorrelationId: d7bd3b36-3b5d-4f9b-a04d-b18f68b443c7\"}]}"}
+
+2025-12-21T11:28:49.865Z WARN  - Image pull failed. Defaulting to local copy if present.
+2025-12-21T11:28:49.867Z ERROR - Image pull failed: Verify docker image configuration and credentials (if using private repository)
+2025-12-21T11:28:49.875Z INFO  - Stopping site expense-backend-app-unique because it failed during startup.
+2025-12-21T11:29:00.659Z INFO  - Pulling image: expensetrackeracr1.azurecr.io/expense-backend:latest
+2025-12-21T11:29:00.834Z INFO  - latest Pulling from expense-backend
+2025-12-21T11:29:00.848Z INFO  -  
+2025-12-21T11:29:00.849Z ERROR - no matching manifest for linux/amd64 in the manifest list entriesErr: 0, Message: no matching manifest for linux/amd64 in the manifest list entries
+2025-12-21T11:29:00.853Z INFO  - Pull Image failed, Time taken: 0 Seconds
+2025-12-21T11:29:00.854Z ERROR - Pulling docker image expensetrackeracr1.azurecr.io/expense-backend:latest failed:
+2025-12-21T11:29:00.977Z ERROR - DockerApiException: Docker API responded with status code=InternalServerError, response={"message":"Head \"https://expensetrackeracr1.azurecr.io/v2/expense-backend/manifests/latest\": unauthorized: {\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"authentication required, visit https://aka.ms/acr/authorization for more information. CorrelationId: e09d1dca-efce-4496-b75b-9fd7f083fc8f\"}]}"}
+
+2025-12-21T11:29:00.993Z WARN  - Image pull failed. Defaulting to local copy if present.
+2025-12-21T11:29:00.995Z ERROR - Image pull failed: Verify docker image configuration and credentials (if using private repository)
+2025-12-21T11:29:00.997Z INFO  - Stopping site expense-backend-app-unique because it failed during startup.
+2025-12-21T11:29:14.099Z INFO  - Pulling image: expensetrackeracr1.azurecr.io/expense-backend:latest
+2025-12-21T11:29:21.120Z INFO  - latest Pulling from expense-backend
+2025-12-21T11:29:21.854Z INFO  -  
+2025-12-21T11:29:21.862Z ERROR - no matching manifest for linux/amd64 in the manifest list entriesErr: 0, Message: no matching manifest for linux/amd64 in the manifest list entries
+2025-12-21T11:29:22.235Z INFO  - Pull Image failed, Time taken: 7 Seconds
+2025-12-21T11:29:22.237Z ERROR - Pulling docker image expensetrackeracr1.azurecr.io/expense-backend:latest failed:
+2025-12-21T11:29:23.825Z ERROR - DockerApiException: Docker API responded with status code=InternalServerError, response={"message":"Head \"https://expensetrackeracr1.azurecr.io/v2/expense-backend/manifests/latest\": unauthorized: {\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"authentication required, visit https://aka.ms/acr/authorization for more information. CorrelationId: 385c5d35-f47c-4dba-87dd-37dd8731a41a\"}]}"}
+
+2025-12-21T11:29:23.833Z WARN  - Image pull failed. Defaulting to local copy if present.
+2025-12-21T11:29:24.025Z ERROR - Image pull failed: Verify docker image configuration and credentials (if using private repository)
+2025-12-21T11:29:24.095Z INFO  - Stopping site expense-backend-app-unique because it failed during startup.
+2025-12-21T11:31:35.651Z INFO  - Pulling image: expensetrackeracr1.azurecr.io/expense-backend:latest
+2025-12-21T11:31:38.882Z INFO  - latest Pulling from expense-backend
+2025-12-21T11:31:39.012Z INFO  -  
+2025-12-21T11:31:39.031Z ERROR - no matching manifest for linux/amd64 in the manifest list entriesErr: 0, Message: no matching manifest for linux/amd64 in the manifest list entries
+2025-12-21T11:31:39.091Z INFO  - Pull Image failed, Time taken: 3 Seconds
+2025-12-21T11:31:39.093Z ERROR - Pulling docker image expensetrackeracr1.azurecr.io/expense-backend:latest failed:
+2025-12-21T11:31:40.840Z ERROR - DockerApiException: Docker API responded with status code=InternalServerError, response={"message":"Head \"https://expensetrackeracr1.azurecr.io/v2/expense-backend/manifests/latest\": unauthorized: {\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"authentication required, visit https://aka.ms/acr/authorization for more information. CorrelationId: 864d6910-c3ea-4574-b1b9-9a8d2abbe04a\"}]}"}
+
+2025-12-21T11:31:40.843Z WARN  - Image pull failed. Defaulting to local copy if present.
+2025-12-21T11:31:40.893Z ERROR - Image pull failed: Verify docker image configuration and credentials (if using private repository)
+2025-12-21T11:31:40.954Z INFO  - Stopping site expense-backend-app-unique because it failed during startup.

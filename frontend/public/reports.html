@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#667eea" />
+    <title>Reports - Expense Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="theme.js"></script>
+</head>
+<body>
+    <!-- Navigation Sidebar -->
+    <nav class="sidebar">
+        <div class="logo">
+            <h2>💰 Expense Tracker</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html">📊 Dashboard</a></li>
+            <li><a href="add-expense.html">➕ Add Expense</a></li>
+            <li><a href="expenses.html">📋 View Expenses</a></li>
+            <li><a href="reports.html" class="active">📈 Reports</a></li>
+            <li><a href="settings.html">⚙️ Settings</a></li>
+            <li><a href="javascript:void(0)" id="logout-link" class="logout-link" onclick="window.logout(); return false;">🚪 Logout</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <p>Version 1.0.0</p>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <h1>Analytics & Reports</h1>
+            <div class="user-info">
+                <span class="date" id="current-date"></span>
+                <div class="user-avatar">👤</div>                <button onclick="logout()" class="logout-btn" title="Logout">🚪</button>            </div>
+        </header>
+
+        <!-- Reports Content -->
+        <div class="reports-container">
+            <!-- Time Period Selector -->
+            <div class="period-selector">
+                <button class="period-btn active" data-period="week">This Week</button>
+                <button class="period-btn" data-period="month">This Month</button>
+                <button class="period-btn" data-period="year">This Year</button>
+                <button class="period-btn" data-period="all">All Time</button>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="report-stats">
+                <div class="report-card">
+                    <div class="report-icon">💰</div>
+                    <h3>Total Spent</h3>
+                    <p class="report-value" id="report-total">₹0</p>
+                    <span class="report-label">In selected period</span>
+                </div>
+                <div class="report-card">
+                    <div class="report-icon">📊</div>
+                    <h3>Average per Day</h3>
+                    <p class="report-value" id="report-avg">₹0</p>
+                    <span class="report-label">Daily average</span>
+                </div>
+                <div class="report-card">
+                    <div class="report-icon">🏆</div>
+                    <h3>Highest Category</h3>
+                    <p class="report-value" id="report-top-category">-</p>
+                    <span class="report-label">Most spending</span>
+                </div>
+                <div class="report-card">
+                    <div class="report-icon">📈</div>
+                    <h3>Trend</h3>
+                    <p class="report-value" id="report-trend">-</p>
+                    <span class="report-label">vs last period</span>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-grid">
+                <!-- Category Chart -->
+                <div class="chart-card">
+                    <h3>Category-wise Breakdown</h3>
+                    <div class="chart-container" id="category-chart">
+                        <!-- Visual chart will be here -->
+                        <div class="bar-chart" id="bar-chart"></div>
+                    </div>
+                </div>
+
+                <!-- Daily Trend -->
+                <div class="chart-card">
+                    <h3>Daily Spending Trend</h3>
+                    <div class="chart-container" id="trend-chart">
+                        <div class="line-chart" id="line-chart"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Category Breakdown -->
+            <div class="category-details">
+                <h2>Category Details</h2>
+                <div class="category-grid" id="category-details">
+                    <p class="loading">Loading data...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="api-config.js"></script>
+    <script src="app.js"></script>
+    <script src="mobile-menu.js"></script>
+    <script src="reports-azure.js"></script>
+</body>
+</html>

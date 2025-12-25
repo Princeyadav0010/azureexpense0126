@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#667eea" />
+    <title>All Expenses - Expense Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="theme.js"></script>
+</head>
+<body>
+    <!-- Navigation Sidebar -->
+    <nav class="sidebar">
+        <div class="logo">
+            <h2>💰 Expense Tracker</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html">📊 Dashboard</a></li>
+            <li><a href="add-expense.html">➕ Add Expense</a></li>
+            <li><a href="expenses.html" class="active">📋 View Expenses</a></li>
+            <li><a href="reports.html">📈 Reports</a></li>
+            <li><a href="settings.html">⚙️ Settings</a></li>
+            <li><a href="javascript:void(0)" id="logout-link" class="logout-link" onclick="window.logout(); return false;">🚪 Logout</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <p>Version 1.0.0</p>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <h1>All Expenses</h1>
+            <div class="user-info">
+                <span class="date" id="current-date"></span>
+                <div class="user-avatar">👤</div>
+            </div>
+        </header>
+
+        <!-- Filters & Search -->
+        <div class="filters-section">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="🔍 Search expenses...">
+            </div>
+            <div class="filter-group">
+                <select id="category-filter">
+                    <option value="">All Categories</option>
+                    <option value="Food">Food</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Bills">Bills</option>
+                    <option value="Health">Health</option>
+                    <option value="Education">Education</option>
+                    <option value="Other">Other</option>
+                </select>
+                <select id="date-filter">
+                    <option value="">All Time</option>
+                    <option value="today">Today</option>
+                    <option value="week">This Week</option>
+                    <option value="month">This Month</option>
+                    <option value="custom">Custom Range</option>
+                </select>
+                <button class="btn btn-secondary" onclick="clearFilters()">Clear Filters</button>
+            </div>
+        </div>
+
+        <!-- Expenses Table -->
+        <div class="table-container">
+            <div class="table-card">
+                <div class="table-header">
+                    <h2>Expense Records</h2>
+                    <div class="table-actions">
+                        <button class="btn btn-small" onclick="exportCSV()">📥 Export CSV</button>
+                        <button class="btn btn-small btn-danger" onclick="deleteAll()">🗑️ Delete All</button>
+                    </div>
+                </div>
+                
+                <div class="table-wrapper">
+                    <table id="expenses-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>Payment</th>
+                                <th>Amount</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expenses-tbody">
+                            <tr>
+                                <td colspan="6" class="loading">Loading expenses...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination" id="pagination">
+                    <!-- Pagination will be added dynamically -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="api-config.js"></script>
+    <script src="app.js"></script>
+    <script src="mobile-menu.js"></script>
+    <script src="expenses-azure.js"></script>
+</body>
+</html>

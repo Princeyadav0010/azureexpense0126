@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#667eea" />
+    <title>Add Expense - Expense Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="theme.js"></script>
+</head>
+<body>
+    <!-- Navigation Sidebar -->
+    <nav class="sidebar">
+        <div class="logo">
+            <h2>💰 Expense Tracker</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html">📊 Dashboard</a></li>
+            <li><a href="add-expense.html" class="active">➕ Add Expense</a></li>
+            <li><a href="expenses.html">📋 View Expenses</a></li>
+            <li><a href="reports.html">📈 Reports</a></li>
+            <li><a href="settings.html">⚙️ Settings</a></li>
+            <li><a href="javascript:void(0)" id="logout-link" class="logout-link" onclick="window.logout(); return false;">🚪 Logout</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <p>Version 1.0.0</p>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <h1>Add New Expense</h1>
+            <div class="user-info">
+                <span class="date" id="current-date"></span>
+                <div class="user-avatar">👤</div>
+            </div>
+        </header>
+
+        <!-- Form Content -->
+        <div class="form-container">
+            <div class="form-card">
+                <div class="success-message hidden" id="success-message">
+                    ✅ Expense added successfully!
+                </div>
+
+                <form id="expense-form" class="professional-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="amount">
+                                <span class="label-icon">💵</span>
+                                Amount (₹) *
+                            </label>
+                            <input type="number" id="amount" placeholder="Enter amount" step="0.01" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="date">
+                                <span class="label-icon">📅</span>
+                                Date *
+                            </label>
+                            <input type="date" id="date" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="category">
+                                <span class="label-icon">🏷️</span>
+                                Category *
+                            </label>
+                            <select id="category" required>
+                                <option value="">Select Category</option>
+                                <option value="Food">🍔 Food (Khana)</option>
+                                <option value="Transport">🚗 Transport (Yatra)</option>
+                                <option value="Entertainment">🎬 Entertainment (Manoranjan)</option>
+                                <option value="Shopping">🛍️ Shopping (Kharidari)</option>
+                                <option value="Bills">💡 Bills (Bill)</option>
+                                <option value="Health">⚕️ Health (Swasthya)</option>
+                                <option value="Education">📚 Education (Shiksha)</option>
+                                <option value="Other">📌 Other (Anya)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="payment-method">
+                                <span class="label-icon">💳</span>
+                                Payment Method
+                            </label>
+                            <select id="payment-method">
+                                <option value="Cash">Cash</option>
+                                <option value="Card">Card</option>
+                                <option value="UPI">UPI</option>
+                                <option value="Net Banking">Net Banking</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="description">
+                            <span class="label-icon">📝</span>
+                            Description
+                        </label>
+                        <textarea id="description" rows="4" placeholder="Add notes about this expense..."></textarea>
+                        <button type="button" class="btn-ai-suggest" onclick="generateAICaption()">
+                            ✨ Generate AI Caption
+                        </button>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="bill-upload">
+                            <span class="label-icon">📄</span>
+                            Upload Bill/Receipt (Optional)
+                        </label>
+                        <div class="file-upload-wrapper">
+                            <input type="file" id="bill-upload" accept="image/*,.pdf" onchange="previewBill(event)">
+                            <div class="file-upload-label">
+                                <span class="upload-icon">📎</span>
+                                <span class="upload-text">Click to upload or drag & drop</span>
+                                <span class="upload-hint">Supports: JPG, PNG, PDF (Max 5MB)</span>
+                            </div>
+                        </div>
+                        <div id="bill-preview" class="bill-preview hidden">
+                            <img id="preview-image" src="" alt="Bill Preview">
+                            <button type="button" class="btn-remove-bill" onclick="removeBill()">
+                                ❌ Remove
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                            Clear Form
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <span>💾 Save Expense</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Quick Stats on Side -->
+            <div class="side-stats">
+                <div class="mini-stat">
+                    <h3>Today's Expenses</h3>
+                    <p class="mini-value" id="today-total">₹0</p>
+                </div>
+                <div class="mini-stat">
+                    <h3>This Week</h3>
+                    <p class="mini-value" id="week-total">₹0</p>
+                </div>
+                <div class="mini-stat">
+                    <h3>Last Entry</h3>
+                    <p class="mini-value" id="last-entry">No data</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="api-config.js"></script>
+    <script src="app.js"></script>
+    <script src="ai-insights.js"></script>
+    <script src="mobile-menu.js"></script>
+    <script src="add-expense-azure.js"></script>
+</body>
+</html>

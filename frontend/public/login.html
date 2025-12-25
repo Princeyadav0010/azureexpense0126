@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#667eea" />
+    <title>💰 Expense Tracker - Login</title>
+    <link rel="stylesheet" href="login-style.css">
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="bg-animation">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+    </div>
+
+    <!-- Back to Home Button -->
+    <a href="/" class="back-home-btn">
+        <span>←</span> Back to Home
+    </a>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Logo Section -->
+        <div class="logo-section">
+            <div class="logo-icon">💰</div>
+            <h1 class="brand-name">Expense Tracker</h1>
+            <p class="tagline">Apne kharch ka smart hisaab</p>
+        </div>
+
+        <!-- Auth Card -->
+        <div class="auth-card">
+            <!-- Login Form -->
+            <div id="login-form" class="form-container active">
+                <h2 class="form-title">Welcome Back!</h2>
+                <p class="form-subtitle">Apne account mein login karein</p>
+                
+                <form id="loginForm" class="auth-form">
+                    <div class="input-group">
+                        <div class="input-icon">👤</div>
+                        <input type="text" id="login-username" placeholder="Username" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <div class="input-icon">🔒</div>
+                        <input type="password" id="login-password" placeholder="Password" required>
+                    </div>
+
+                    <div class="remember-forgot">
+                        <label class="remember-me">
+                            <input type="checkbox" id="remember-me">
+                            <span>Remember me</span>
+                        </label>
+                        <a href="#" class="forgot-link">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <span>Login</span>
+                        <div class="btn-shine"></div>
+                    </button>
+                </form>
+
+                <div class="form-switch">
+                    <p>Naya user ho? <a href="#" id="show-register">Register karein</a></p>
+                </div>
+            </div>
+
+            <!-- Register Form -->
+            <div id="register-form" class="form-container">
+                <h2 class="form-title">Create Account</h2>
+                <p class="form-subtitle">Naya account banayein</p>
+                
+                <form id="registerForm" class="auth-form">
+                    <div class="input-group">
+                        <div class="input-icon">👤</div>
+                        <input type="text" id="register-name" placeholder="Full Name" required>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-icon">📧</div>
+                        <input type="email" id="register-email" placeholder="Email" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <div class="input-icon">👨</div>
+                        <input type="text" id="register-username" placeholder="Username" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <div class="input-icon">🔒</div>
+                        <input type="password" id="register-password" placeholder="Password" required>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-icon">✅</div>
+                        <input type="password" id="register-confirm-password" placeholder="Confirm Password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <span>Create Account</span>
+                        <div class="btn-shine"></div>
+                    </button>
+                </form>
+
+                <div class="form-switch">
+                    <p>Already have account? <a href="#" id="show-login">Login karein</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features">
+            <div class="feature-item">
+                <div class="feature-icon">📊</div>
+                <p>Smart Analytics</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">🔒</div>
+                <p>Secure & Private</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">⚡</div>
+                <p>Fast & Simple</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="api-config.js"></script>
+    <script src="login-script-azure.js"></script>
+</body>
+</html>

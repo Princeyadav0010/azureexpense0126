@@ -1,0 +1,161 @@
+2025-12-21T15:01:20.1135863Z Container start method called.
+2025-12-21T15:01:20.1233403Z Establishing network.
+2025-12-21T15:01:20.1238909Z Pulling image: expensetracker1766329096.azurecr.io/expense-backend:latest.
+2025-12-21T15:01:26.8306928Z Container pull image failed with reason: ImagePullFailure. Revert by terminate.
+2025-12-21T15:01:26.8421014Z Container is terminating. Grace period: 5 seconds.
+2025-12-21T15:01:26.8510777Z Container spec TerminationMessagePolicy  path 
+2025-12-21T15:01:26.8602919Z Container is terminated. Total time elapsed: 17 ms.
+2025-12-21T15:01:26.8606102Z Site container: expense-backend-1766329096 terminated during site startup.
+2025-12-21T15:01:26.9212211Z Failed to start site. Revert by stopping site.
+2025-12-21T15:01:26.9512879Z Site: expense-backend-1766329096 stopped.
+2025-12-21T15:01:31.308Z INFO  - Pulling image: expensetracker1766329096.azurecr.io/expense-backend:latest
+2025-12-21T15:01:32.737Z INFO  - latest Pulling from expense-backend
+2025-12-21T15:01:32.754Z INFO  -  
+2025-12-21T15:01:32.755Z ERROR - no matching manifest for linux/amd64 in the manifest list entriesErr: 0, Message: no matching manifest for linux/amd64 in the manifest list entries
+2025-12-21T15:01:32.758Z INFO  - Pull Image failed, Time taken: 1 Seconds
+2025-12-21T15:01:32.765Z ERROR - Pulling docker image expensetracker1766329096.azurecr.io/expense-backend:latest failed:
+2025-12-21T15:01:32.850Z ERROR - DockerApiException: Docker API responded with status code=InternalServerError, response={"message":"Head \"https://expensetracker1766329096.azurecr.io/v2/expense-backend/manifests/latest\": unauthorized: {\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"authentication required, visit https://aka.ms/acr/authorization for more information. CorrelationId: b9a861d4-21ff-4d5b-ba6a-90cc29f869ab\"}]}"}
+
+2025-12-21T15:01:32.851Z WARN  - Image pull failed. Defaulting to local copy if present.
+2025-12-21T15:01:32.853Z ERROR - Image pull failed: Verify docker image configuration and credentials (if using private repository)
+2025-12-21T15:01:32.910Z INFO  - Stopping site expense-backend-1766329096 because it failed during startup.
+2025-12-21T15:01:39.447Z INFO  - Pulling image: expensetracker1766329096.azurecr.io/expense-backend:latest
+2025-12-21T15:01:39.688Z INFO  - latest Pulling from expense-backend
+2025-12-21T15:01:39.711Z INFO  -  
+2025-12-21T15:01:39.712Z ERROR - no matching manifest for linux/amd64 in the manifest list entriesErr: 0, Message: no matching manifest for linux/amd64 in the manifest list entries
+2025-12-21T15:01:39.747Z INFO  - Pull Image failed, Time taken: 0 Seconds
+2025-12-21T15:01:39.748Z ERROR - Pulling docker image expensetracker1766329096.azurecr.io/expense-backend:latest failed:
+2025-12-21T15:01:39.891Z ERROR - DockerApiException: Docker API responded with status code=InternalServerError, response={"message":"Head \"https://expensetracker1766329096.azurecr.io/v2/expense-backend/manifests/latest\": unauthorized: {\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"authentication required, visit https://aka.ms/acr/authorization for more information. CorrelationId: 3c237e32-6639-4a6a-b6c1-7bf6112c4d55\"}]}"}
+
+2025-12-21T15:01:39.900Z WARN  - Image pull failed. Defaulting to local copy if present.
+2025-12-21T15:01:39.902Z ERROR - Image pull failed: Verify docker image configuration and credentials (if using private repository)
+2025-12-21T15:01:39.932Z INFO  - Stopping site expense-backend-1766329096 because it failed during startup.
+2025-12-21T15:01:50.395Z INFO  - Pulling image: expensetracker1766329096.azurecr.io/expense-backend:latest
+2025-12-21T15:01:50.582Z INFO  - latest Pulling from expense-backend
+2025-12-21T15:01:50.599Z INFO  -  
+2025-12-21T15:01:50.600Z ERROR - no matching manifest for linux/amd64 in the manifest list entriesErr: 0, Message: no matching manifest for linux/amd64 in the manifest list entries
+2025-12-21T15:01:50.604Z INFO  - Pull Image failed, Time taken: 0 Seconds
+2025-12-21T15:01:50.605Z ERROR - Pulling docker image expensetracker1766329096.azurecr.io/expense-backend:latest failed:
+2025-12-21T15:01:50.673Z ERROR - DockerApiException: Docker API responded with status code=InternalServerError, response={"message":"Head \"https://expensetracker1766329096.azurecr.io/v2/expense-backend/manifests/latest\": unauthorized: {\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"authentication required, visit https://aka.ms/acr/authorization for more information. CorrelationId: 20f7085c-1e11-4bf2-bea3-186e00438750\"}]}"}
+
+2025-12-21T15:01:50.674Z WARN  - Image pull failed. Defaulting to local copy if present.
+2025-12-21T15:01:50.676Z ERROR - Image pull failed: Verify docker image configuration and credentials (if using private repository)
+2025-12-21T15:01:50.684Z INFO  - Stopping site expense-backend-1766329096 because it failed during startup.
+2025-12-21T15:01:59.034Z INFO  - Pulling image: expensetracker1766329096.azurecr.io/expense-backend:latest
+2025-12-21T15:01:59.196Z INFO  - latest Pulling from expense-backend
+2025-12-21T15:01:59.216Z INFO  -  
+2025-12-21T15:01:59.216Z ERROR - no matching manifest for linux/amd64 in the manifest list entriesErr: 0, Message: no matching manifest for linux/amd64 in the manifest list entries
+2025-12-21T15:01:59.218Z INFO  - Pull Image failed, Time taken: 0 Seconds
+2025-12-21T15:01:59.225Z ERROR - Pulling docker image expensetracker1766329096.azurecr.io/expense-backend:latest failed:
+2025-12-21T15:01:59.325Z ERROR - DockerApiException: Docker API responded with status code=InternalServerError, response={"message":"Head \"https://expensetracker1766329096.azurecr.io/v2/expense-backend/manifests/latest\": unauthorized: {\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"authentication required, visit https://aka.ms/acr/authorization for more information. CorrelationId: 43d20bf4-4011-4777-8fd1-6328c63d0563\"}]}"}
+
+2025-12-21T15:01:59.333Z WARN  - Image pull failed. Defaulting to local copy if present.
+2025-12-21T15:01:59.342Z ERROR - Image pull failed: Verify docker image configuration and credentials (if using private repository)
+2025-12-21T15:01:59.354Z INFO  - Stopping site expense-backend-1766329096 because it failed during startup.
+2025-12-21T15:04:22.758Z INFO  - Pulling image: expensetracker1766329096.azurecr.io/expense-backend:latest
+2025-12-21T15:04:23.074Z INFO  - latest Pulling from expense-backend
+2025-12-21T15:04:23.100Z INFO  -  
+2025-12-21T15:04:23.101Z ERROR - no matching manifest for linux/amd64 in the manifest list entriesErr: 0, Message: no matching manifest for linux/amd64 in the manifest list entries
+2025-12-21T15:04:23.105Z INFO  - Pull Image failed, Time taken: 0 Seconds
+2025-12-21T15:04:23.105Z ERROR - Pulling docker image expensetracker1766329096.azurecr.io/expense-backend:latest failed:
+2025-12-21T15:04:23.179Z ERROR - DockerApiException: Docker API responded with status code=InternalServerError, response={"message":"Head \"https://expensetracker1766329096.azurecr.io/v2/expense-backend/manifests/latest\": unauthorized: {\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"authentication required, visit https://aka.ms/acr/authorization for more information. CorrelationId: 0b1e0897-85a4-4625-b847-b73b45a5b409\"}]}"}
+
+2025-12-21T15:04:23.218Z WARN  - Image pull failed. Defaulting to local copy if present.
+2025-12-21T15:04:23.220Z ERROR - Image pull failed: Verify docker image configuration and credentials (if using private repository)
+2025-12-21T15:04:23.238Z INFO  - Stopping site expense-backend-1766329096 because it failed during startup.
+2025-12-21T15:06:51.1468739Z Container start method called.
+2025-12-21T15:06:51.1768413Z Establishing network.
+2025-12-21T15:06:51.1843573Z Pulling image: expensetracker1766329096.azurecr.io/expense-backend:latest.
+2025-12-21T15:06:55.3134573Z Container pull image failed with reason: ImagePullFailure. Revert by terminate.
+2025-12-21T15:06:55.3138762Z Container is terminating. Grace period: 5 seconds.
+2025-12-21T15:06:55.3141578Z Container spec TerminationMessagePolicy  path 
+2025-12-21T15:06:55.3144182Z Container is terminated. Total time elapsed: 0 ms.
+2025-12-21T15:06:55.3145740Z Site container: expense-backend-1766329096 terminated during site startup.
+2025-12-21T15:06:55.3626359Z Failed to start site. Revert by stopping site.
+2025-12-21T15:06:55.3646782Z Site: expense-backend-1766329096 stopped.
+2025-12-21T15:07:04.8826292Z Container start method called.
+2025-12-21T15:07:04.8910199Z Establishing network.
+2025-12-21T15:07:04.8912001Z Pulling image: expensetracker1766329096.azurecr.io/expense-backend:latest.
+2025-12-21T15:07:08.4539673Z Container pull image failed with reason: ImagePullFailure. Revert by terminate.
+2025-12-21T15:07:08.4744368Z Container is terminating. Grace period: 5 seconds.
+2025-12-21T15:07:08.4765272Z Container spec TerminationMessagePolicy  path 
+2025-12-21T15:07:08.4948683Z Container is terminated. Total time elapsed: 17 ms.
+2025-12-21T15:07:08.4956401Z Site container: expense-backend-1766329096 terminated during site startup.
+2025-12-21T15:07:08.5465747Z Failed to start site. Revert by stopping site.
+2025-12-21T15:07:08.5672251Z Site: expense-backend-1766329096 stopped.
+2025-12-21T15:07:09.4620059Z Site: expense-backend-1766329096 will be blocked for 1 minutes till 12/21/2025 15:08:09
+2025-12-21T15:07:39.0559016Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:07:44.2562833Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:07:49.3910889Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:07:54.5577613Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:07:59.6813770Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:08:04.8312236Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:08:09.4615987Z Site: expense-backend-1766329096 is unblocked.
+2025-12-21T15:08:12.8689442Z Container start method called.
+2025-12-21T15:08:12.8773365Z Establishing network.
+2025-12-21T15:08:12.8779210Z Pulling image: expensetracker1766329096.azurecr.io/expense-backend:latest.
+2025-12-21T15:08:16.4819034Z Container pull image failed with reason: ImagePullFailure. Revert by terminate.
+2025-12-21T15:08:16.4831613Z Container is terminating. Grace period: 5 seconds.
+2025-12-21T15:08:16.4909853Z Container spec TerminationMessagePolicy  path 
+2025-12-21T15:08:16.4920653Z Container is terminated. Total time elapsed: 7 ms.
+2025-12-21T15:08:16.5015280Z Site container: expense-backend-1766329096 terminated during site startup.
+2025-12-21T15:08:16.5314835Z Failed to start site. Revert by stopping site.
+2025-12-21T15:08:16.5319292Z Site: expense-backend-1766329096 stopped.
+2025-12-21T15:08:17.1863492Z Site: expense-backend-1766329096 will be blocked for 1 minutes till 12/21/2025 15:09:17
+2025-12-21T15:08:22.6290392Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:08:28.1150501Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:08:33.6319571Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:08:39.6233176Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:08:44.8166961Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:08:49.9732698Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:08:55.2024111Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:09:00.4042347Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:09:06.6514870Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:09:11.8134591Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:09:16.9277343Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:09:17.6240863Z Site: expense-backend-1766329096 is unblocked.
+2025-12-21T15:09:24.2669437Z Container start method called.
+2025-12-21T15:09:24.2670944Z Establishing network.
+2025-12-21T15:09:24.3069852Z Pulling image: expensetracker1766329096.azurecr.io/expense-backend:latest.
+2025-12-21T15:09:28.1828027Z Container pull image failed with reason: ImagePullFailure. Revert by terminate.
+2025-12-21T15:09:28.1847782Z Container is terminating. Grace period: 5 seconds.
+2025-12-21T15:09:28.1923563Z Container spec TerminationMessagePolicy  path 
+2025-12-21T15:09:28.1925584Z Container is terminated. Total time elapsed: 0 ms.
+2025-12-21T15:09:28.1926788Z Site container: expense-backend-1766329096 terminated during site startup.
+2025-12-21T15:09:28.2231598Z Failed to start site. Revert by stopping site.
+2025-12-21T15:09:28.2319674Z Site: expense-backend-1766329096 stopped.
+2025-12-21T15:09:28.8881685Z Site: expense-backend-1766329096 will be blocked for 2 minutes till 12/21/2025 15:11:28
+2025-12-21T15:09:34.9134854Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:09:40.0801301Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:09:45.8483645Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:09:50.9443488Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:09:55.9128433Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:09:56.1244777Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:09:59.3092964Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:09:59.5165302Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:10:01.2801245Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:10:06.3537122Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:10:11.4690419Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:10:16.6041760Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:10:21.6846973Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:10:26.8658690Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:10:31.9663719Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:10:37.0912585Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:10:42.2054046Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:10:47.2776668Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:10:52.4355695Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:10:57.6015516Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:11:02.7769236Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:11:07.9487170Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:11:13.0856679Z Start site prohibitted because the site is being blocked.
+2025-12-21T15:11:28.8653823Z Site: expense-backend-1766329096 is unblocked.
+2025-12-21T15:15:04.4570653Z Container start method called.
+2025-12-21T15:15:04.4574035Z Establishing network.
+2025-12-21T15:15:04.4576300Z Pulling image: expensetracker1766329096.azurecr.io/expense-backend:latest.
+2025-12-21T15:15:09.3629220Z Container pull image failed with reason: ImagePullFailure. Revert by terminate.
+2025-12-21T15:15:09.3714519Z Container is terminating. Grace period: 5 seconds.
+2025-12-21T15:15:09.3735964Z Container spec TerminationMessagePolicy  path 
+2025-12-21T15:15:09.3814359Z Container is terminated. Total time elapsed: 8 ms.
+2025-12-21T15:15:09.3822564Z Site container: expense-backend-1766329096 terminated during site startup.
+2025-12-21T15:15:09.4431248Z Failed to start site. Revert by stopping site.
+2025-12-21T15:15:09.4458384Z Site: expense-backend-1766329096 stopped.

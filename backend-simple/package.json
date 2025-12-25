@@ -1,0 +1,19 @@
+{
+  "name": "expense-tracker-simple-backend",
+  "version": "1.0.0",
+  "description": "Simple backend - Plain JavaScript (No frameworks)",
+  "main": "server-azure.js",
+  "scripts": {
+    "start": "node server-azure.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["expense", "tracker", "simple", "javascript"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@azure/cosmos": "^4.0.0",
+    "@azure/storage-blob": "^12.17.0",
+    "dotenv": "^16.3.1",
+    "uuid": "^9.0.1"
+  }
+}

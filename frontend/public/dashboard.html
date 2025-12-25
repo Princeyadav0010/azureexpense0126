@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#667eea" />
+    <title>Dashboard - Expense Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="theme.js"></script>
+</head>
+<body>
+    <!-- Navigation Sidebar -->
+    <nav class="sidebar">
+        <div class="logo">
+            <h2>💰 Expense Tracker</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html" class="active">📊 Dashboard</a></li>
+            <li><a href="add-expense.html">➕ Add Expense</a></li>
+            <li><a href="expenses.html">📋 View Expenses</a></li>
+            <li><a href="reports.html">📈 Reports</a></li>
+            <li><a href="settings.html">⚙️ Settings</a></li>
+            <li><a href="javascript:void(0)" id="logout-link" class="logout-link" onclick="window.logout(); return false;">🚪 Logout</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <p>Version 1.0.0</p>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <h1>Dashboard Overview</h1>
+            <div class="user-info">
+                <span class="date" id="current-date"></span>
+                <div class="user-avatar">👤</div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-container">
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card stat-total">
+                    <div class="stat-icon">💵</div>
+                    <div class="stat-info">
+                        <h3>Total Expenses</h3>
+                        <p class="stat-value" id="total-amount">₹0</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card stat-month">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-info">
+                        <h3>This Month</h3>
+                        <p class="stat-value" id="month-amount">₹0</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card stat-count">
+                    <div class="stat-icon">🧾</div>
+                    <div class="stat-info">
+                        <h3>Total Transactions</h3>
+                        <p class="stat-value" id="total-count">0</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card stat-avg">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-info">
+                        <h3>Average Expense</h3>
+                        <p class="stat-value" id="avg-amount">₹0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Expenses & Category Breakdown -->
+            <div class="dashboard-grid">
+                <!-- Recent Expenses -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h2>Recent Expenses</h2>
+                        <a href="expenses.html" class="view-all">View All →</a>
+                    </div>
+                    <div class="recent-list" id="recent-expenses">
+                        <p class="loading">Loading...</p>
+                    </div>
+                </div>
+
+                <!-- Category Breakdown -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h2>Category Breakdown</h2>
+                    </div>
+                    <div class="category-list" id="category-breakdown">
+                        <p class="loading">Loading...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h2>Quick Actions</h2>
+                <div class="action-buttons">
+                    <a href="add-expense.html" class="action-btn">
+                        <span class="action-icon">➕</span>
+                        <span>Add New Expense</span>
+                    </a>
+                    <a href="reports.html" class="action-btn">
+                        <span class="action-icon">📈</span>
+                        <span>View Reports</span>
+                    </a>
+                    <button class="action-btn" onclick="exportData()">
+                        <span class="action-icon">📥</span>
+                        <span>Export Data</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- AI Savings Suggestions -->
+            <div class="savings-suggestions">
+                <h2>💡 Smart Savings Tips</h2>
+                <div class="suggestions-list" id="savings-suggestions">
+                    <p class="loading">Loading suggestions...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="api-config.js"></script>
+    <script src="app.js"></script>
+    <script src="ai-insights.js"></script>
+    <script src="mobile-menu.js"></script>
+    <script src="dashboard-azure.js"></script>
+</body>
+</html>

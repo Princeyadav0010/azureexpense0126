@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Storage</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>LocalStorage Debug</h1>
+    <button onclick="showData()">Show Expenses</button>
+    <button onclick="addTest()">Add Test Expense</button>
+    <button onclick="clearData()">Clear All</button>
+    <pre id="output">Click "Show Expenses" to see data...</pre>
+    
+    <script>
+        function showData() {
+            const data = localStorage.getItem('expenses');
+            if (data) {
+                const parsed = JSON.parse(data);
+                document.getElementById('output').textContent = 
+                    'Total expenses: ' + parsed.length + '\n\n' +
+                    JSON.stringify(parsed, null, 2);
+            } else {
+                document.getElementById('output').textContent = 'No expenses found in localStorage';
+            }
+        }
+        
+        function addTest() {
+            const expenses = JSON.parse(localStorage.getItem('expenses') || '[]');
+            expenses.unshift({
+                id: Date.now().toString(),
+                amount: 100,
+                category: 'Food',
+                date: new Date().toISOString().split('T')[0],
+                paymentMethod: 'Cash',
+                description: 'Test expense'
+            });
+            localStorage.setItem('expenses', JSON.stringify(expenses));
+            alert('Test expense added! Check dashboard now.');
+            showData();
+        }
+        
+        function clearData() {
+            if (confirm('Clear all expenses?')) {
+                localStorage.clear();
+                alert('Cleared!');
+                showData();
+            }
+        }
+        
+        showData();
+    </script>
+</body>
+</html>

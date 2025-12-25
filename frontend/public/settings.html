@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#667eea" />
+    <title>Settings - Expense Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="theme.js"></script>
+</head>
+<body>
+    <!-- Navigation Sidebar -->
+    <nav class="sidebar">
+        <div class="logo">
+            <h2>💰 Expense Tracker</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html">📊 Dashboard</a></li>
+            <li><a href="add-expense.html">➕ Add Expense</a></li>
+            <li><a href="expenses.html">📋 View Expenses</a></li>
+            <li><a href="reports.html">📈 Reports</a></li>
+            <li><a href="settings.html" class="active">⚙️ Settings</a></li>
+            <li><a href="javascript:void(0)" id="logout-link" class="logout-link" onclick="window.logout(); return false;">🚪 Logout</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <p>Version 1.0.0</p>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <h1>Settings</h1>
+            <div class="user-info">
+                <span class="date" id="current-date"></span>
+                <div class="user-avatar">👤</div>
+            </div>
+        </header>
+
+        <!-- Settings Content -->
+        <div class="settings-container">
+            <div class="settings-card">
+                <h2>⚙️ General Settings</h2>
+                <div class="setting-item">
+                    <label>Currency</label>
+                    <select>
+                        <option selected>₹ INR - Indian Rupee</option>
+                        <option>$ USD - US Dollar</option>
+                        <option>€ EUR - Euro</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label>Date Format</label>
+                    <select>
+                        <option selected>DD/MM/YYYY</option>
+                        <option>MM/DD/YYYY</option>
+                        <option>YYYY-MM-DD</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Theme section removed - App is always in Light mode -->
+
+            <div class="settings-card">
+                <h2>📊 Data Management</h2>
+                <div class="data-actions">
+                    <button class="btn btn-primary" onclick="exportAllData()">
+                        📥 Export All Data (JSON)
+                    </button>
+                    <button class="btn btn-secondary" onclick="importData()">
+                        📤 Import Data
+                    </button>
+                    <button class="btn btn-danger" onclick="clearAllData()">
+                        🗑️ Clear All Data
+                    </button>
+                </div>
+            </div>
+
+            <div class="settings-card">
+                <h2>ℹ️ About</h2>
+                <div class="about-info">
+                    <p><strong>Version:</strong> 1.0.0</p>
+                    <p><strong>Developer:</strong> Your Name</p>
+                    <p><strong>Last Updated:</strong> December 2025</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="api-config.js"></script>
+    <script src="app.js"></script>
+    <script src="mobile-menu.js"></script>
+    <script src="settings.js"></script>
+</body>
+</html>
