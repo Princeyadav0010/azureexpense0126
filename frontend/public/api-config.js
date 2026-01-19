@@ -2,10 +2,10 @@
 // Change this URL when deploying to Azure
 const API_CONFIG = {
     // Local development
-    // BASE_URL: 'http://localhost:3000',
+    BASE_URL: 'http://localhost:3000',
     
     // Azure production (Deployed!)
-    BASE_URL: 'https://expense-backend-1766329096.azurewebsites.net',
+    // BASE_URL: 'https://expense-backend-1766329096.azurewebsites.net',
     
     ENDPOINTS: {
         // Auth
@@ -124,10 +124,15 @@ const API = {
         return data.expenses || []; // Return expenses array
     },
     
-    async createExpense(amount, category, description, date) {
+    async createExpense(amount, category, description, date, billUrl = null) {
+        const expenseData = { amount, category, description, date };
+        if (billUrl) {
+            expenseData.billUrl = billUrl;
+        }
+        
         const data = await this.request(API_CONFIG.ENDPOINTS.EXPENSES, {
             method: 'POST',
-            body: JSON.stringify({ amount, category, description, date })
+            body: JSON.stringify(expenseData)
         });
         return data.expense || data; // Return expense object
     },
@@ -147,6 +152,38 @@ const API = {
         return await this.request(API_CONFIG.ENDPOINTS.EXPENSE_BY_ID(id), {
             method: 'DELETE'
         });
+    },
+    
+    // Bill Upload API
+    async uploadBill(file) {
+        const token = this.getToken();
+        const formData = new FormData();
+        formData.append('bill', file);
+        
+        const url = `${API_CONFIG.BASE_URL}/api/upload/bill`;
+        console.log('Uploading bill:', file.name, 'Size:', (file.size / 1024).toFixed(2), 'KB');
+        
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(data.error || 'Upload failed');
+            }
+            
+            console.log('Bill uploaded:', data.url);
+            return data.url; // Return the uploaded bill URL
+        } catch (error) {
+            console.error('Bill upload error:', error);
+            throw error;
+        }
     },
     
     // Check if user is authenticated

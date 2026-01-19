@@ -201,5 +201,103 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Load expenses from Azure
     await loadExpenses();
     
+    // Generate smart savings tips
+    generateSavingsTips();
+    
     console.log('Dashboard ready!');
 });
+
+// Generate smart savings tips based on spending patterns
+function generateSavingsTips() {
+    const suggestionsContainer = document.getElementById('savings-suggestions');
+    if (!suggestionsContainer) return;
+    
+    if (expenses.length === 0) {
+        suggestionsContainer.innerHTML = '<p class="no-data">Add expenses to get personalized savings tips!</p>';
+        return;
+    }
+    
+    const tips = [];
+    
+    // Analyze spending patterns
+    const categoryTotals = {};
+    expenses.forEach(exp => {
+        const cat = exp.category || 'Other';
+        categoryTotals[cat] = (categoryTotals[cat] || 0) + parseFloat(exp.amount);
+    });
+    
+    // Find highest spending category
+    const highestCategory = Object.entries(categoryTotals).sort((a, b) => b[1] - a[1])[0];
+    if (highestCategory) {
+        const [category, amount] = highestCategory;
+        const percentage = ((amount / totalExpenses) * 100).toFixed(0);
+        tips.push({
+            icon: '📊',
+            title: `${category} Spending Alert`,
+            description: `You're spending ${percentage}% of your budget on ${category}. Try to reduce by 10% to save ₹${(amount * 0.1).toFixed(2)} this month!`
+        });
+    }
+    
+    // Daily average tip
+    const daysInMonth = new Date().getDate();
+    const dailyAvg = monthExpenses / daysInMonth;
+    if (dailyAvg > 0) {
+        tips.push({
+            icon: '📅',
+            title: 'Daily Spending Average',
+            description: `Your daily average is ₹${dailyAvg.toFixed(2)}. Try to keep it under ₹${(dailyAvg * 0.9).toFixed(2)} to save more!`
+        });
+    }
+    
+    // Food spending tip
+    if (categoryTotals['Food']) {
+        const foodPercentage = ((categoryTotals['Food'] / totalExpenses) * 100).toFixed(0);
+        if (foodPercentage > 30) {
+            tips.push({
+                icon: '🍔',
+                title: 'Food Budget Optimization',
+                description: `Food expenses are ${foodPercentage}% of total. Consider meal planning or cooking at home to save ₹${(categoryTotals['Food'] * 0.15).toFixed(2)}!`
+            });
+        }
+    }
+    
+    // Entertainment tip
+    if (categoryTotals['Entertainment']) {
+        tips.push({
+            icon: '🎬',
+            title: 'Entertainment Savings',
+            description: `Look for free entertainment options like parks, free events, or library resources to reduce your ₹${categoryTotals['Entertainment'].toFixed(2)} entertainment budget.`
+        });
+    }
+    
+    // General savings tip
+    tips.push({
+        icon: '💰',
+        title: '50-30-20 Rule',
+        description: `Try the 50-30-20 budgeting rule: 50% needs, 30% wants, 20% savings. Based on your spending, aim to save ₹${(totalExpenses * 0.2).toFixed(2)} this month.`
+    });
+    
+    // Transport tip
+    if (categoryTotals['Transport']) {
+        tips.push({
+            icon: '🚗',
+            title: 'Transport Savings',
+            description: `Consider carpooling, public transport, or cycling to reduce your ₹${categoryTotals['Transport'].toFixed(2)} transport costs by up to 30%!`
+        });
+    }
+    
+    // Display tips
+    suggestionsContainer.innerHTML = '';
+    tips.slice(0, 4).forEach(tip => {
+        const tipElement = document.createElement('div');
+        tipElement.className = 'suggestion-card';
+        tipElement.innerHTML = `
+            <div class="suggestion-icon">${tip.icon}</div>
+            <div class="suggestion-content">
+                <h3>${tip.title}</h3>
+                <p>${tip.description}</p>
+            </div>
+        `;
+        suggestionsContainer.appendChild(tipElement);
+    });
+}

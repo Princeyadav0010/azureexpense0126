@@ -10,10 +10,31 @@ if (typeof global.crypto === 'undefined') {
 const http = require('http');
 const url = require('url');
 const { v4: uuidv4 } = require('uuid');
+const { BlobServiceClient } = require('@azure/storage-blob');
 const { initializeDatabase, UserDB, ExpenseDB } = require('./cosmosdb');
 const { hashPassword, comparePassword, generateToken, getUserFromRequest } = require('./auth');
 
 const PORT = process.env.PORT || 3000;
+
+// Azure Blob Storage setup (optional - only if credentials are provided)
+let blobServiceClient = null;
+let containerClient = null;
+
+if (process.env.AZURE_STORAGE_CONNECTION_STRING) {
+    try {
+        blobServiceClient = BlobServiceClient.fromConnectionString(
+            process.env.AZURE_STORAGE_CONNECTION_STRING
+        );
+        containerClient = blobServiceClient.getContainerClient(
+            process.env.AZURE_STORAGE_CONTAINER_NAME || 'bills'
+        );
+        console.log('✅ Azure Blob Storage initialized');
+    } catch (error) {
+        console.warn('⚠️  Azure Blob Storage not configured:', error.message);
+    }
+} else {
+    console.warn('⚠️  Azure Blob Storage not configured (AZURE_STORAGE_CONNECTION_STRING not set)');
+}
 
 // CORS headers
 function setCorsHeaders(res) {
@@ -36,6 +57,70 @@ function parseBody(req, callback) {
     req.on('end', () => {
         try {
             callback(null, body ? JSON.parse(body) : {});
+        } catch (error) {
+            callback(error);
+        }
+    });
+}
+
+// Parse multipart form data (for file uploads)
+function parseMultipart(req, callback) {
+    const contentType = req.headers['content-type'];
+    if (!contentType || !contentType.includes('multipart/form-data')) {
+        return callback(new Error('Not a multipart request'));
+    }
+    
+    const boundary = contentType.split('boundary=')[1];
+    if (!boundary) {
+        return callback(new Error('No boundary found'));
+    }
+    
+    let chunks = [];
+    req.on('data', chunk => chunks.push(chunk));
+    req.on('end', () => {
+        try {
+            const buffer = Buffer.concat(chunks);
+            const parts = buffer.toString('binary').split('--' + boundary);
+            
+            const files = [];
+            const fields = {};
+            
+            parts.forEach(part => {
+                if (part.includes('Content-Disposition')) {
+                    const nameMatch = part.match(/name="([^"]+)"/);
+                    const filenameMatch = part.match(/filename="([^"]+)"/);
+                    
+                    if (filenameMatch && nameMatch) {
+                        // It's a file
+                        const filename = filenameMatch[1];
+                        const fieldName = nameMatch[1];
+                        const contentTypeMatch = part.match(/Content-Type: ([^\r\n]+)/);
+                        const contentType = contentTypeMatch ? contentTypeMatch[1] : 'application/octet-stream';
+                        
+                        // Extract file data
+                        const dataStart = part.indexOf('\r\n\r\n') + 4;
+                        const dataEnd = part.lastIndexOf('\r\n');
+                        const fileData = Buffer.from(part.slice(dataStart, dataEnd), 'binary');
+                        
+                        files.push({
+                            fieldName,
+                            filename,
+                            contentType,
+                            data: fileData,
+                            size: fileData.length
+                        });
+                    } else if (nameMatch) {
+                        // It's a field
+                        const fieldName = nameMatch[1];
+                        const dataStart = part.indexOf('\r\n\r\n') + 4;
+                        const dataEnd = part.lastIndexOf('\r\n');
+                        const value = part.slice(dataStart, dataEnd).trim();
+                        fields[fieldName] = value;
+                    }
+                }
+            });
+            
+            callback(null, { files, fields });
         } catch (error) {
             callback(error);
         }
@@ -74,6 +159,9 @@ const server = http.createServer(async (req, res) => {
                         create: 'POST /api/expenses',
                         update: 'PUT /api/expenses/:id',
                         delete: 'DELETE /api/expenses/:id'
+                    },
+                    upload: {
+                        bill: 'POST /api/upload/bill'
                     }
                 }
             });
@@ -180,11 +268,93 @@ const server = http.createServer(async (req, res) => {
         
         // ==================== EXPENSE ROUTES (Protected) ====================
         
-        // Middleware: Extract user from token
+        // Middleware: Extract user from token for protected routes
         const userPayload = getUserFromRequest(req);
-        if (!userPayload && pathname.startsWith('/api/expenses')) {
+        if (!userPayload && (pathname.startsWith('/api/expenses') || pathname.startsWith('/api/upload'))) {
             return sendJSON(res, 401, { error: 'Unauthorized - Please login' });
         }
+        
+        // ==================== FILE UPLOAD ROUTE ====================
+        
+        // Upload bill/receipt
+        if (pathname === '/api/upload/bill' && method === 'POST') {
+            // Check if Azure Blob Storage is configured
+            const useBlobStorage = !!containerClient;
+            
+            if (!useBlobStorage) {
+                console.log('⚠️  Azure Blob Storage not configured, using base64 encoding');
+            }
+            
+            parseMultipart(req, async (err, result) => {
+                if (err) {
+                    console.error('Multipart parse error:', err);
+                    return sendJSON(res, 400, { error: 'Invalid file upload' });
+                }
+                
+                const { files } = result;
+                
+                if (!files || files.length === 0) {
+                    return sendJSON(res, 400, { error: 'No file uploaded' });
+                }
+                
+                const file = files[0]; // Get first file
+                
+                // Validate file size (max 5MB)
+                const maxSize = 5 * 1024 * 1024;
+                if (file.size > maxSize) {
+                    return sendJSON(res, 400, { error: 'File size exceeds 5MB limit' });
+                }
+                
+                // Validate file type
+                const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
+                if (!allowedTypes.includes(file.contentType)) {
+                    return sendJSON(res, 400, { 
+                        error: 'Invalid file type. Only JPG, PNG, and PDF are allowed' 
+                    });
+                }
+                
+                try {
+                    let fileUrl;
+                    
+                    if (useBlobStorage) {
+                        // Upload to Azure Blob Storage
+                        const fileExtension = file.filename.split('.').pop();
+                        const blobName = `${userPayload.userId}/${uuidv4()}.${fileExtension}`;
+                        
+                        console.log('Uploading to Azure Blob:', blobName);
+                        
+                        const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+                        await blockBlobClient.upload(file.data, file.size, {
+                            blobHTTPHeaders: {
+                                blobContentType: file.contentType
+                            }
+                        });
+                        
+                        fileUrl = blockBlobClient.url;
+                        console.log('File uploaded to Azure Blob:', fileUrl);
+                    } else {
+                        // Fallback: Convert to base64 data URL
+                        const base64Data = file.data.toString('base64');
+                        fileUrl = `data:${file.contentType};base64,${base64Data}`;
+                        console.log('File converted to base64, size:', (fileUrl.length / 1024).toFixed(2), 'KB');
+                    }
+                    
+                    sendJSON(res, 200, { 
+                        message: 'File uploaded successfully',
+                        url: fileUrl,
+                        filename: file.filename,
+                        size: file.size,
+                        storage: useBlobStorage ? 'azure-blob' : 'base64'
+                    });
+                } catch (error) {
+                    console.error('File upload error:', error);
+                    sendJSON(res, 500, { error: 'Failed to upload file' });
+                }
+            });
+            return;
+        }
+        
+        // ==================== EXPENSE ROUTES ====================
         
         // Get all expenses for logged-in user
         if (pathname === '/api/expenses' && method === 'GET') {
@@ -203,7 +373,7 @@ const server = http.createServer(async (req, res) => {
             parseBody(req, async (err, body) => {
                 if (err) return sendJSON(res, 400, { error: 'Invalid JSON' });
                 
-                const { amount, category, description, date } = body;
+                const { amount, category, description, date, billUrl } = body;
                 
                 if (!amount || !category) {
                     return sendJSON(res, 400, { error: 'Amount and category are required' });
@@ -217,6 +387,7 @@ const server = http.createServer(async (req, res) => {
                         category,
                         description: description || '',
                         date: date || new Date().toISOString(),
+                        billUrl: billUrl || null, // Store bill URL if provided
                         createdAt: new Date().toISOString()
                     };
                     

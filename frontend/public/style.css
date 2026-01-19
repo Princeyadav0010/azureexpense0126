@@ -3,21 +3,21 @@
 /* CSS Variables for Themes */
 :root {
     /* Light Theme (Default) - Enhanced with vibrant colors */
-    --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --bg-primary: linear-gradient(135deg, #BCAAA4 0%, #A1887F 100%);
     --bg-secondary: #FFFFFF;
     --text-primary: #1a202c;
     --text-secondary: #4a5568;
-    --sidebar-bg: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+    --sidebar-bg: linear-gradient(180deg, #BCAAA4 0%, #A1887F 100%);
     --accent-primary: #f56565;
     --accent-secondary: #ed64a6;
     --accent-tertiary: #48bb78;
-    --accent-quaternary: #4299e1;
+    --accent-quaternary: #D7CCC8;
     --border-color: rgba(255,255,255,0.2);
-    --card-shadow: 0 10px 40px rgba(102, 126, 234, 0.2), 0 4px 20px rgba(118, 75, 162, 0.1);
-    --hover-shadow: 0 20px 60px rgba(102, 126, 234, 0.3), 0 8px 30px rgba(118, 75, 162, 0.2);
-    --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --card-shadow: 0 10px 40px rgba(188, 170, 164, 0.2), 0 4px 20px rgba(161, 136, 127, 0.1);
+    --hover-shadow: 0 20px 60px rgba(188, 170, 164, 0.3), 0 8px 30px rgba(161, 136, 127, 0.2);
+    --gradient-1: linear-gradient(135deg, #BCAAA4 0%, #A1887F 100%);
     --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --gradient-3: linear-gradient(135deg, #D7CCC8 0%, #BCAAA4 100%);
     --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
     --gradient-5: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
 }
@@ -488,7 +488,7 @@ body {
 .btn-ai-suggest {
     margin-top: 10px;
     padding: 10px 20px;
-    background: linear-gradient(135deg, #3E2723 0%, #4E342E 100%);
+    background: linear-gradient(135deg, #8E44AD 0%, #3498DB 100%);
     color: white;
     border: none;
     border-radius: 8px;
@@ -496,11 +496,32 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .btn-ai-suggest:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(62, 39, 35, 0.3);
+    box-shadow: 0 5px 15px rgba(142, 68, 173, 0.4);
+}
+
+.btn-ai-suggest:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Fade in animation for AI-generated content */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Bill Upload Styles */
@@ -1894,5 +1915,155 @@ tbody tr:hover {
     to {
         transform: translateY(0);
         opacity: 1;
+    }
+}
+
+/* Edit Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: fadeIn 0.3s;
+}
+
+.modal-content {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideUp 0.3s;
+}
+
+.modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.modal-close:hover {
+    background: rgba(255, 0, 0, 0.1);
+    color: #ff4444;
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+.modal-body .form-group {
+    margin-bottom: 16px;
+}
+
+.modal-body .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.modal-body input,
+.modal-body select,
+.modal-body textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    transition: all 0.3s;
+}
+
+.modal-body input:focus,
+.modal-body select:focus,
+.modal-body textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.modal-footer .btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.modal-footer .btn-secondary {
+    background: #e2e8f0;
+    color: #475569;
+    border: none;
+}
+
+.modal-footer .btn-secondary:hover {
+    background: #cbd5e1;
+}
+
+.modal-footer .btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+}
+
+.modal-footer .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

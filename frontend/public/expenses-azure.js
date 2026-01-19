@@ -138,12 +138,113 @@ function getCategoryIcon(category) {
 // Edit expense
 window.editExpense = async function(expenseId) {
     const expense = allExpenses.find(e => e.id === expenseId);
-    if (!expense) return;
+    if (!expense) {
+        console.error('Expense not found:', expenseId);
+        return;
+    }
     
-    // For now, just show alert. You can implement edit modal later
-    alert(`Edit functionality coming soon!\nExpense: ${expense.category} - ₹${expense.amount}`);
+    console.log('Editing expense:', expense);
     
-    // TODO: Implement edit modal with API.updateExpense()
+    // Create edit modal
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>✏️ Edit Expense</h2>
+                <button class="modal-close" onclick="closeEditModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-expense-form">
+                    <div class="form-group">
+                        <label>Amount (₹) *</label>
+                        <input type="number" id="edit-amount" value="${expense.amount}" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category *</label>
+                        <select id="edit-category" required>
+                            <option value="Food" ${expense.category === 'Food' ? 'selected' : ''}>🍔 Food</option>
+                            <option value="Transport" ${expense.category === 'Transport' ? 'selected' : ''}>🚗 Transport</option>
+                            <option value="Entertainment" ${expense.category === 'Entertainment' ? 'selected' : ''}>🎬 Entertainment</option>
+                            <option value="Shopping" ${expense.category === 'Shopping' ? 'selected' : ''}>🛍️ Shopping</option>
+                            <option value="Bills" ${expense.category === 'Bills' ? 'selected' : ''}>💡 Bills</option>
+                            <option value="Health" ${expense.category === 'Health' ? 'selected' : ''}>⚕️ Health</option>
+                            <option value="Education" ${expense.category === 'Education' ? 'selected' : ''}>📚 Education</option>
+                            <option value="Other" ${expense.category === 'Other' ? 'selected' : ''}>📌 Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="edit-description" rows="3">${expense.description || ''}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Date *</label>
+                        <input type="date" id="edit-date" value="${expense.date.split('T')[0]}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Method</label>
+                        <select id="edit-payment">
+                            <option value="Cash" ${expense.paymentMethod === 'Cash' ? 'selected' : ''}>Cash</option>
+                            <option value="Card" ${expense.paymentMethod === 'Card' ? 'selected' : ''}>Card</option>
+                            <option value="UPI" ${expense.paymentMethod === 'UPI' ? 'selected' : ''}>UPI</option>
+                            <option value="Net Banking" ${expense.paymentMethod === 'Net Banking' ? 'selected' : ''}>Net Banking</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveExpenseEdit('${expenseId}')">💾 Save Changes</button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    window.currentEditModal = modal;
+};
+
+window.closeEditModal = function() {
+    if (window.currentEditModal) {
+        window.currentEditModal.remove();
+        window.currentEditModal = null;
+    }
+};
+
+window.saveExpenseEdit = async function(expenseId) {
+    const amount = document.getElementById('edit-amount').value;
+    const category = document.getElementById('edit-category').value;
+    const description = document.getElementById('edit-description').value;
+    const date = document.getElementById('edit-date').value;
+    const paymentMethod = document.getElementById('edit-payment').value;
+    
+    if (!amount || !category || !date) {
+        alert('Please fill all required fields');
+        return;
+    }
+    
+    try {
+        console.log('Updating expense in Azure:', expenseId);
+        
+        const updateData = {
+            amount: parseFloat(amount),
+            category,
+            description,
+            date,
+            paymentMethod
+        };
+        
+        await API.updateExpense(expenseId, updateData);
+        
+        console.log('Expense updated successfully');
+        showToast && showToast('Expense updated successfully!', 'success');
+        
+        closeEditModal();
+        await loadExpenses();
+        
+    } catch (error) {
+        console.error('Failed to update expense:', error);
+        showToast && showToast('Failed to update expense: ' + error.message, 'error');
+    }
 };
 
 // Delete expense
@@ -241,13 +342,15 @@ const searchInput = document.getElementById('search-input');
 if (searchInput) {
     searchInput.addEventListener('input', function() {
         const searchTerm = this.value.toLowerCase();
+        console.log('Searching:', searchTerm);
         
         if (!searchTerm) {
             filteredExpenses = [...allExpenses];
         } else {
             filteredExpenses = allExpenses.filter(e => 
                 e.category.toLowerCase().includes(searchTerm) ||
-                (e.description && e.description.toLowerCase().includes(searchTerm))
+                (e.description && e.description.toLowerCase().includes(searchTerm)) ||
+                e.amount.toString().includes(searchTerm)
             );
         }
         
@@ -256,6 +359,72 @@ if (searchInput) {
         updateStats();
     });
 }
+
+// Category filter
+const categoryFilter = document.getElementById('category-filter');
+if (categoryFilter) {
+    categoryFilter.addEventListener('change', function() {
+        currentFilter = this.value || 'all';
+        console.log('Category filter changed:', currentFilter);
+        applyFiltersAndSort();
+        displayExpenses();
+        updateStats();
+    });
+}
+
+// Date filter
+const dateFilter = document.getElementById('date-filter');
+if (dateFilter) {
+    dateFilter.addEventListener('change', function() {
+        const filterValue = this.value;
+        console.log('Date filter changed:', filterValue);
+        
+        if (!filterValue) {
+            filteredExpenses = [...allExpenses];
+        } else {
+            const now = new Date();
+            filteredExpenses = allExpenses.filter(e => {
+                const expDate = new Date(e.date);
+                
+                switch(filterValue) {
+                    case 'today':
+                        return expDate.toDateString() === now.toDateString();
+                    case 'week':
+                        const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                        return expDate >= weekAgo;
+                    case 'month':
+                        return expDate.getMonth() === now.getMonth() && 
+                               expDate.getFullYear() === now.getFullYear();
+                    default:
+                        return true;
+                }
+            });
+        }
+        
+        applyFiltersAndSort();
+        displayExpenses();
+        updateStats();
+    });
+}
+
+// Clear filters function
+window.clearFilters = function() {
+    console.log('Clearing all filters');
+    
+    // Reset filters
+    currentFilter = 'all';
+    if (categoryFilter) categoryFilter.value = '';
+    if (dateFilter) dateFilter.value = '';
+    if (searchInput) searchInput.value = '';
+    
+    // Reset to all expenses
+    filteredExpenses = [...allExpenses];
+    applyFiltersAndSort();
+    displayExpenses();
+    updateStats();
+    
+    showToast && showToast('Filters cleared', 'success');
+};
 
 // Initialize
 console.log('Expenses page initializing with Azure backend...');

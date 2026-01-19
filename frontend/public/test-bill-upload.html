@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Bill Upload</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .success { color: green; }
+        .error { color: red; }
+        button { padding: 10px 20px; margin: 10px 0; }
+        #logs { background: #f5f5f5; padding: 10px; margin: 10px 0; max-height: 400px; overflow-y: auto; }
+        .log { margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Bill Upload Test</h1>
+    
+    <div>
+        <h3>1. Login First:</h3>
+        <input type="text" id="username" placeholder="Username" value="testuser">
+        <input type="password" id="password" placeholder="Password" value="test123">
+        <button onclick="login()">Login</button>
+        <div id="loginStatus"></div>
+    </div>
+    
+    <div>
+        <h3>2. Upload Bill:</h3>
+        <input type="file" id="fileInput" accept="image/*,.pdf">
+        <button onclick="uploadBill()">Upload Bill</button>
+        <div id="uploadStatus"></div>
+    </div>
+    
+    <div>
+        <h3>3. Check Container:</h3>
+        <button onclick="checkFiles()">Check Azure Files</button>
+    </div>
+    
+    <h3>Logs:</h3>
+    <div id="logs"></div>
+    
+    <script src="api-config.js"></script>
+    <script>
+        function addLog(msg, type = 'info') {
+            const logs = document.getElementById('logs');
+            const log = document.createElement('div');
+            log.className = 'log ' + type;
+            log.textContent = new Date().toLocaleTimeString() + ' - ' + msg;
+            logs.insertBefore(log, logs.firstChild);
+            console.log(msg);
+        }
+        
+        async function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const status = document.getElementById('loginStatus');
+            
+            addLog('🔐 Attempting login...');
+            
+            try {
+                const data = await API.login(username, password);
+                status.className = 'success';
+                status.textContent = '✅ Login successful!';
+                addLog('✅ Login successful! Token: ' + API.getToken().substring(0, 20) + '...', 'success');
+            } catch (error) {
+                status.className = 'error';
+                status.textContent = '❌ Login failed: ' + error.message;
+                addLog('❌ Login failed: ' + error.message, 'error');
+            }
+        }
+        
+        async function uploadBill() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            const status = document.getElementById('uploadStatus');
+            
+            if (!file) {
+                status.className = 'error';
+                status.textContent = '❌ Please select a file';
+                addLog('❌ No file selected', 'error');
+                return;
+            }
+            
+            if (!API.isAuthenticated()) {
+                status.className = 'error';
+                status.textContent = '❌ Please login first';
+                addLog('❌ Not authenticated', 'error');
+                return;
+            }
+            
+            addLog('📤 Uploading: ' + file.name + ' (' + (file.size/1024).toFixed(2) + ' KB)');
+            status.textContent = '⏳ Uploading...';
+            
+            try {
+                const url = await API.uploadBill(file);
+                status.className = 'success';
+                status.textContent = '✅ Upload successful!';
+                addLog('✅ Upload successful!', 'success');
+                addLog('📦 URL: ' + url, 'success');
+            } catch (error) {
+                status.className = 'error';
+                status.textContent = '❌ Upload failed: ' + error.message;
+                addLog('❌ Upload failed: ' + error.message, 'error');
+            }
+        }
+        
+        async function checkFiles() {
+            addLog('🔍 Checking Azure container...');
+            addLog('ℹ️ Check manually: az storage blob list --account-name expenseweb329477 --container-name bills -o table');
+        }
+        
+        addLog('✅ Test page loaded');
+    </script>
+</body>
+</html>

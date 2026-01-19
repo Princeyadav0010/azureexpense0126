@@ -44,7 +44,7 @@
 
 body {
     font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #BCAAA4 0%, #A1887F 100%);
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -121,8 +121,8 @@ body {
 }
 
 .nav-link:hover {
-    color: #667eea;
-    background: rgba(102, 126, 234, 0.1);
+    color: #BCAAA4;
+    background: rgba(188, 170, 164, 0.1);
     transform: translateY(-2px);
 }
 
@@ -133,7 +133,7 @@ body {
     left: 50%;
     width: 0;
     height: 2px;
-    background: #667eea;
+    background: #BCAAA4;
     transition: all 0.3s ease;
     transform: translateX(-50%);
 }
@@ -383,10 +383,10 @@ body {
 }
 
 .input-group input:focus {
-    border-color: #667eea;
+    border-color: #BCAAA4;
     background: #f9fafb;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+    box-shadow: 0 4px 12px rgba(188, 170, 164, 0.15);
 }
 
 .input-group input:focus ~ .input-icon {
@@ -423,14 +423,14 @@ body {
 
 .forgot-link {
     font-size: 14px;
-    color: #667eea;
+    color: #BCAAA4;
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s ease;
 }
 
 .forgot-link:hover {
-    color: #764ba2;
+    color: #A1887F;
     text-decoration: underline;
 }
 
@@ -449,14 +449,14 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #BCAAA4 0%, #A1887F 100%);
     color: white;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 15px rgba(188, 170, 164, 0.4);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    box-shadow: 0 6px 20px rgba(188, 170, 164, 0.6);
 }
 
 .btn-primary:active {
@@ -501,14 +501,14 @@ body {
 }
 
 .form-switch a {
-    color: #667eea;
+    color: #BCAAA4;
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s ease;
 }
 
 .form-switch a:hover {
-    color: #764ba2;
+    color: #A1887F;
     text-decoration: underline;
 }
 

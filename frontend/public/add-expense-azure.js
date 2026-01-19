@@ -125,8 +125,29 @@ if (expenseForm) {
                 submitBtn.textContent = 'Saving...';
             }
             
-            // Create expense via API
-            const result = await API.createExpense(amount, category, description, date);
+            // Prepare expense data
+            let billUrl = null;
+            
+            // Upload bill if present
+            if (uploadedBillFile) {
+                console.log('📤 Uploading bill:', uploadedBillFile.name, 'Size:', uploadedBillFile.size);
+                if (submitBtn) submitBtn.textContent = 'Uploading bill...';
+                
+                try {
+                    billUrl = await API.uploadBill(uploadedBillFile);
+                    console.log('✅ Bill uploaded successfully:', billUrl);
+                } catch (uploadError) {
+                    console.error('❌ Bill upload failed:', uploadError);
+                    showToast && showToast('Warning: Bill upload failed, but expense will be saved', 'warning');
+                }
+            } else {
+                console.log('ℹ️ No bill file selected');
+            }
+            
+            if (submitBtn) submitBtn.textContent = 'Saving expense...';
+            
+            // Create expense via API (with bill URL if available)
+            const result = await API.createExpense(amount, category, description, date, billUrl);
             
             console.log('Expense created:', result);
             
@@ -138,11 +159,12 @@ if (expenseForm) {
                 const today = new Date().toISOString().split('T')[0];
                 dateInput.value = today;
             }
+            removeBill(); // Clear bill upload
             
             // Re-enable submit button
             if (submitBtn) {
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Add Expense';
+                submitBtn.textContent = '💾 Save Expense';
             }
             
             // Redirect to dashboard after a short delay
@@ -158,7 +180,7 @@ if (expenseForm) {
             const submitBtn = expenseForm.querySelector('button[type="submit"]');
             if (submitBtn) {
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Add Expense';
+                submitBtn.textContent = '💾 Save Expense';
             }
         }
     });
@@ -206,6 +228,158 @@ if (cancelBtn) {
         window.location.href = 'dashboard.html';
     });
 }
+
+// AI Caption Generator Function - ACTIVATED
+window.generateAICaption = async function() {
+    console.log('🤖 AI Caption Generator activated!');
+    
+    const categorySelect = document.getElementById('category');
+    const amountInput = document.getElementById('amount');
+    const dateInput = document.getElementById('date');
+    const descriptionInput = document.getElementById('description');
+    
+    if (!categorySelect || !categorySelect.value) {
+        showToast && showToast('Please select a category first!', 'warning');
+        return;
+    }
+    
+    if (!amountInput || !amountInput.value) {
+        showToast && showToast('Please enter amount first!', 'warning');
+        return;
+    }
+    
+    // Show loading state
+    const aiBtn = document.querySelector('.btn-ai-suggest');
+    if (aiBtn) {
+        aiBtn.disabled = true;
+        aiBtn.innerHTML = '⏳ Generating AI caption...';
+    }
+    
+    try {
+        // Create temporary expense object for AI
+        const tempExpense = {
+            amount: parseFloat(amountInput.value),
+            category: categorySelect.value,
+            date: dateInput.value || new Date().toISOString(),
+            description: descriptionInput.value || ''
+        };
+        
+        // Simulate AI processing delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Generate smart caption using AI insights
+        const caption = generateSmartCaption(tempExpense);
+        
+        // Set the description
+        if (descriptionInput) {
+            descriptionInput.value = caption;
+            descriptionInput.style.animation = 'fadeIn 0.5s ease';
+        }
+        
+        console.log('✨ AI Generated Caption:', caption);
+        showToast && showToast('AI caption generated successfully! ✨', 'success');
+        
+    } catch (error) {
+        console.error('AI Caption Error:', error);
+        showToast && showToast('Failed to generate AI caption', 'error');
+    } finally {
+        // Restore button state
+        if (aiBtn) {
+            aiBtn.disabled = false;
+            aiBtn.innerHTML = '✨ Generate AI Caption';
+        }
+    }
+};
+
+// Bill Upload Functions
+let uploadedBillFile = null;
+
+window.previewBill = function(event) {
+    const file = event.target.files[0];
+    if (!file) {
+        console.log('⚠️ No file selected');
+        return;
+    }
+    
+    console.log('📎 File selected:', file.name, 'Type:', file.type, 'Size:', file.size);
+    
+    // Check file size (max 5MB)
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    if (file.size > maxSize) {
+        console.log('❌ File too large:', file.size);
+        showToast && showToast('File size should not exceed 5MB', 'error');
+        event.target.value = '';
+        return;
+    }
+    
+    // Store file for later upload
+    uploadedBillFile = file;
+    console.log('✅ Bill file stored for upload:', uploadedBillFile.name);
+    
+    // Preview for images
+    if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById('bill-preview');
+            const img = document.getElementById('preview-image');
+            
+            if (img && preview) {
+                img.src = e.target.result;
+                preview.classList.remove('hidden');
+            }
+        };
+        reader.readAsDataURL(file);
+    } else {
+        // For PDF files, show file name
+        const preview = document.getElementById('bill-preview');
+        const img = document.getElementById('preview-image');
+        
+        if (preview) {
+            preview.classList.remove('hidden');
+            if (img) {
+                img.style.display = 'none';
+            }
+            // Add file name display
+            const fileName = document.createElement('div');
+            fileName.className = 'file-name-display';
+            fileName.textContent = `📄 ${file.name}`;
+            preview.insertBefore(fileName, preview.firstChild);
+        }
+    }
+    
+    console.log('Bill selected:', file.name, 'Size:', (file.size / 1024).toFixed(2), 'KB');
+};
+
+window.removeBill = function() {
+    uploadedBillFile = null;
+    const fileInput = document.getElementById('bill-upload');
+    const preview = document.getElementById('bill-preview');
+    
+    if (fileInput) fileInput.value = '';
+    if (preview) {
+        preview.classList.add('hidden');
+        // Remove any file name display
+        const fileNameDisplay = preview.querySelector('.file-name-display');
+        if (fileNameDisplay) fileNameDisplay.remove();
+    }
+    
+    const img = document.getElementById('preview-image');
+    if (img) {
+        img.src = '';
+        img.style.display = 'block';
+    }
+    
+    console.log('Bill removed');
+};
+
+window.resetForm = function() {
+    if (expenseForm) {
+        expenseForm.reset();
+        const today = new Date().toISOString().split('T')[0];
+        if (dateInput) dateInput.value = today;
+    }
+    removeBill();
+};
 
 // Load stats when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
