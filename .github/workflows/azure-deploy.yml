@@ -8,9 +8,9 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_WEBAPP_NAME: expense-backend-app    # अपना Azure Web App name यहां डालें
-  NODE_VERSION: '18.x'                      # Node.js version
-  ACR_NAME: expensetracker                  # अपना Azure Container Registry name
+  AZURE_WEBAPP_NAME: expense-backend-1766329096    # Your Azure Web App name
+  NODE_VERSION: '18.x'                             # Node.js version
+  ACR_NAME: expensetracker1766329096               # Your Azure Container Registry name
 
 jobs:
   build-and-deploy:
