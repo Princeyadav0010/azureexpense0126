@@ -33,10 +33,9 @@ jobs:
         password: ${{ secrets.ACR_PASSWORD }}
 
     - name: 🔨 Build and Push Docker Image
-      working-directory: ./backend-simple
       run: |
-        docker build -t ${{ env.ACR_NAME }}.azurecr.io/expense-backend:${{ github.sha }} \
-                     -t ${{ env.ACR_NAME }}.azurecr.io/expense-backend:latest .
+        docker build -f backend-simple/Dockerfile -t ${{ env.ACR_NAME }}.azurecr.io/expense-backend:${{ github.sha }} \
+                     -t ${{ env.ACR_NAME }}.azurecr.io/expense-backend:latest backend-simple
         docker push ${{ env.ACR_NAME }}.azurecr.io/expense-backend:${{ github.sha }}
         docker push ${{ env.ACR_NAME }}.azurecr.io/expense-backend:latest
 
