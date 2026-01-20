@@ -31,10 +31,10 @@ jobs:
       - name: Build and push container image to registry
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./backend-simple
           push: true
           tags: expensetracker1766329096.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_9A19F175B35F437FB076CCEFF6622E55 }}/expense-backend:${{ github.sha }}
-          file: ./Dockerfile
+          file: ./backend-simple/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
