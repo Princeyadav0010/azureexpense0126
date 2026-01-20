@@ -1,0 +1,106 @@
+name: Deploy to Azure
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+env:
+  AZURE_WEBAPP_NAME: expense-backend-app    # अपना Azure Web App name यहां डालें
+  NODE_VERSION: '18.x'                      # Node.js version
+  ACR_NAME: expensetracker                  # अपना Azure Container Registry name
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+
+    - name: 🔐 Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: 🐳 Login to Azure Container Registry
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ env.ACR_NAME }}.azurecr.io
+        username: ${{ secrets.ACR_USERNAME }}
+        password: ${{ secrets.ACR_PASSWORD }}
+
+    - name: 🔨 Build and Push Docker Image
+      working-directory: ./backend-simple
+      run: |
+        docker build -t ${{ env.ACR_NAME }}.azurecr.io/expense-backend:${{ github.sha }} \
+                     -t ${{ env.ACR_NAME }}.azurecr.io/expense-backend:latest .
+        docker push ${{ env.ACR_NAME }}.azurecr.io/expense-backend:${{ github.sha }}
+        docker push ${{ env.ACR_NAME }}.azurecr.io/expense-backend:latest
+
+    - name: 🚀 Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        images: ${{ env.ACR_NAME }}.azurecr.io/expense-backend:${{ github.sha }}
+
+    - name: 🔧 Configure App Settings
+      uses: azure/appservice-settings@v1
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        app-settings-json: |
+          [
+            {
+              "name": "COSMOS_DB_ENDPOINT",
+              "value": "${{ secrets.COSMOS_DB_ENDPOINT }}",
+              "slotSetting": false
+            },
+            {
+              "name": "COSMOS_DB_KEY",
+              "value": "${{ secrets.COSMOS_DB_KEY }}",
+              "slotSetting": false
+            },
+            {
+              "name": "COSMOS_DB_DATABASE_NAME",
+              "value": "ExpenseTrackerDB",
+              "slotSetting": false
+            },
+            {
+              "name": "COSMOS_DB_USERS_CONTAINER",
+              "value": "Users",
+              "slotSetting": false
+            },
+            {
+              "name": "COSMOS_DB_EXPENSES_CONTAINER",
+              "value": "Expenses",
+              "slotSetting": false
+            },
+            {
+              "name": "AZURE_STORAGE_CONNECTION_STRING",
+              "value": "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}",
+              "slotSetting": false
+            },
+            {
+              "name": "AZURE_STORAGE_CONTAINER_NAME",
+              "value": "expense-bills",
+              "slotSetting": false
+            },
+            {
+              "name": "JWT_SECRET",
+              "value": "${{ secrets.JWT_SECRET }}",
+              "slotSetting": false
+            },
+            {
+              "name": "NODE_ENV",
+              "value": "production",
+              "slotSetting": false
+            }
+          ]
+
+    - name: ✅ Deployment Complete
+      run: |
+        echo "🎉 Deployment successful!"
+        echo "🌐 Backend URL: https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net"
+        echo "📊 Health Check: https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/health"

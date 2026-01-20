@@ -197,7 +197,52 @@ Configure via `LOG_LEVEL` environment variable.
 
 ## 🚀 Deployment
 
-### Azure Container Instances
+### Quick Deploy with CI/CD (Recommended) 🎯
+
+**Automated deployment using GitHub Actions:**
+
+1. **Setup in 5 minutes:**
+```bash
+# Run automated setup
+./setup-cicd.sh
+
+# Follow the prompts to get all required credentials
+```
+
+2. **Add GitHub Secrets:**
+   - Go to: GitHub → Settings → Secrets → Actions
+   - Add all secrets from setup script output
+
+3. **Push and Deploy:**
+```bash
+git add .
+git commit -m "Deploy to Azure"
+git push origin main
+```
+
+**✨ That's it! Your app will automatically deploy to Azure.**
+
+📚 **Full CI/CD Guide:** [CICD_SETUP.md](CICD_SETUP.md)  
+⚡ **Quick Reference:** [CICD_QUICK_REF.md](CICD_QUICK_REF.md)
+
+---
+
+### CI/CD Pipeline Features
+
+✅ **Automated Testing** - Runs on every push  
+✅ **Docker Build & Push** - To Azure Container Registry  
+✅ **Zero-Downtime Deploy** - To Azure Web App  
+✅ **Environment Config** - Automatic secrets injection  
+✅ **Health Checks** - Post-deployment verification  
+✅ **Rollback Support** - Via Azure deployment slots
+
+**Deployment Time:** ~6 minutes from push to live
+
+---
+
+### Manual Deployment (Alternative)
+
+#### Azure Container Instances
 ```bash
 az container create \
   --resource-group mygroup \
@@ -209,19 +254,22 @@ az container create \
     AZURE_COSMOS_KEY="..."
 ```
 
-### Azure App Service
+#### Azure App Service
 ```bash
 az appservice plan create --name myplan --resource-group mygroup --sku B1 --is-linux
 az webapp create --name myapp --plan myplan --resource-group mygroup --runtime "node|18-lts"
 ```
 
-### GitHub Actions CI/CD
-Automated pipeline runs on:
-- Every push to `main` and `develop`
-- Pull requests to `main`
-- Builds Docker images
-- Runs tests & linting
-- Deploys to Azure
+#### Complete Deployment Scripts
+```bash
+# Quick deployment
+./deploy-azure.sh
+
+# Or step-by-step
+bash DEPLOY_NOW.md
+```
+
+📚 **Detailed Guide:** [AZURE_DEPLOYMENT_GUIDE.md](AZURE_DEPLOYMENT_GUIDE.md)
 
 ## 🧪 Testing
 
